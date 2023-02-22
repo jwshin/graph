@@ -1,0 +1,69 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.micronaut.crac") version "3.7.2"
+    id("io.micronaut.application") version "3.7.2"
+    id("io.micronaut.aot") version "3.7.2"
+    id("com.diffplug.spotless") version "6.15.0"
+}
+
+version = "0.1"
+group = "graph"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.crac:micronaut-crac")
+    implementation("io.micronaut.neo4j:micronaut-neo4j-bolt")
+    implementation("io.micronaut.views:micronaut-views-pebble")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation("io.micronaut:micronaut-management")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    compileOnly("org.graalvm.nativeimage:svm")
+
+    implementation("io.micronaut:micronaut-validation")
+
+    testRuntimeOnly("org.neo4j.test:neo4j-harness")
+
+}
+
+
+application {
+    mainClass.set("graph.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+graalvmNative.toolchainDetection = false
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("graph.*")
+    }
+    aot {
+        // Please review carefully the optimizations enabled below
+        // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
+        optimizeServiceLoading = true
+        convertYamlToJava = true
+        precomputeOperations = true
+        cacheEnvironment = true
+        optimizeClassLoading = true
+        deduceEnvironment = true
+        optimizeNetty = true
+    }
+}
+
+spotless {
+    java {
+        googleJavaFormat("1.15.0").aosp()
+        formatAnnotations()
+    }
+}

@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+     - NEO4J_HOST=memgraph
+    depends_on:
+     - memgraph
+  memgraph:
+    image: "memgraph/memgraph-platform"
+    expose:
+      - "7687"
+    ports:
+       - "7444:7444"
+       - "3000:3000"
+    volumes:
+      - mg_lib:/var/lib/memgraph
+      - mg_log:/var/log/memgraph
+      - mg_etc:/etc/memgraph
+    environment:
+      - MEMGRAPH="--bolt-server-name-for-init=Neo4j/"
+    entrypoint: ["/usr/bin/supervisord"]
+volumes:
+  mg_lib:
+  mg_log:
+  mg_etc:

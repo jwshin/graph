@@ -1,0 +1,14 @@
+micronaut:
+  application:
+    name: graph
+netty:
+  default:
+    allocator:
+      max-order: 3
+endpoints:
+  health:
+    enabled: true
+    sensitive: false
+    details-visible: ANONYMOUS
+neo4j:
+  uri: bolt://${NEO4J_HOST:localhost}
