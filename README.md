@@ -50,3 +50,27 @@ make build
 ```
 
 Visit http://localhost:8080
+
+## Check / Test
+
+Make sure memgraph is running
+```agsl
+make memgraph
+```
+
+And run various application checks
+```agsl
+make check
+```
+
+## Misc
+
+Cleanup
+```agsl
+make clean
+```
+
+Code formatting
+```agsl
+make format
+```
