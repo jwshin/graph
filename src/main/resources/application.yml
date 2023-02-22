@@ -1,6 +1,9 @@
 micronaut:
   application:
     name: graph
+  server:
+    port:
+      8080
 netty:
   default:
     allocator:
