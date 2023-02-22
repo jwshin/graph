@@ -1,4 +1,4 @@
-.PHONY: run memgraph spotless up down build clean test
+.PHONY: run memgraph format up down build clean check
 
 run:
 	./gradlew run
